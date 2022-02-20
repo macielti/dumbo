@@ -7,6 +7,10 @@
     :db/cardinality :db.cardinality/one
     :db/unique      :db.unique/identity
     :db/doc         "Application Id"}
+   {:db/ident       :application/user-id
+    :db/valueType   :db.type/uuid
+    :db/cardinality :db.cardinality/one
+    :db/doc         "User Id that owns that application"}
    {:db/ident       :application/access-token
     :db/valueType   :db.type/string
     :db/cardinality :db.cardinality/one
@@ -38,6 +42,7 @@
 
 (s/defschema Application
   {:application/id                s/Uuid
+   :application/user-id           s/Uuid
    :application/access-token      s/Str
    :application/refresh-token     s/Str
    :application/type              ApplicationType

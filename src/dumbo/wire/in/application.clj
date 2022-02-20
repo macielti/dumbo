@@ -20,3 +20,8 @@
 (abstract-map/extend-schema RedditPreApplication PreApplication ["REDDIT"]
   {:accessToken  s/Str
    :refreshToken s/Str})
+
+(s/defschema YouTubeApplication
+  {:access_token  s/Str
+   :refresh_token s/Str
+   :expires_in    s/Int})
