@@ -4,8 +4,8 @@
             [dumbo.controllers.application :as controllers.application]))
 
 (s/defn create!
-  [{wire-pre-application :json-params
-    {:keys [datomic]}    :components}]
-  (let [pre-application (adapters.application/wire->internal-pre-application wire-pre-application)])
-  {:status 201
-   :body   (controllers.application/create! )})
+  [{wire-pre-application     :json-params
+    {:keys [datomic config]} :components}]
+  (let [pre-application (adapters.application/wire->internal-pre-application wire-pre-application)]
+    {:status 201
+     :body   (controllers.application/create! pre-application config (:connection datomic))}))
