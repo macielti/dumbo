@@ -8,14 +8,11 @@
                           (apply s/enum)))
 
 (s/defschema Application
-  {:id              s/Str
-   :userId          s/Str
-   :accessToken     s/Str
-   :refreshToken    s/Str
-   :type            ApplicationType
-   :accessExpiresAt s/Str
-   :updatedAt       s/Str
-   :createdAt       s/Str})
+  {:id           s/Str
+   :userId       s/Str
+   :accessToken  s/Str
+   :refreshToken s/Str
+   :type         ApplicationType})
 
 (s/defschema ApplicationDocument
   {:application Application})

@@ -11,7 +11,7 @@
 (def base-pre-application
   {:pre-application/type PreApplicationType})
 
-(s/defschema PreApplication (abstract-map/abstract-map-schema :type
+(s/defschema PreApplication (abstract-map/abstract-map-schema :pre-application/type
                                                               base-pre-application))
 
 (abstract-map/extend-schema YoutubePreApplication PreApplication [:youtube]

@@ -1,6 +1,6 @@
 (ns dumbo.db.datomic.application
   (:require [schema.core :as s]
-            [datalevin.core :as d]
+            [datomic.api :as d]
             [dumbo.models.application :as models.application]
             [dumbo.wire.datomic.application :as wire.datomic.application]))
 

@@ -19,7 +19,8 @@
                  [buddy/buddy-sign "3.4.1"]
                  [camel-snake-kebab "0.4.2"]
                  [com.stuartsierra/component "1.0.0"]
-                 [prismatic/schema "1.2.0"]]
+                 [prismatic/schema "1.2.0"]
+                 [com.datomic/datomic-free "0.9.5697"]]
 
   :resource-paths ["resources"]
 

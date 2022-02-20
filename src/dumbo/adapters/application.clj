@@ -21,7 +21,7 @@
 
 (s/defmethod wire->internal-pre-application :reddit :- models.application/RedditPreApplication
              [{:keys [accessToken refreshToken type]} :- wire.in.application/RedditPreApplication]
-             {:pre-application/access-code   accessToken
+             {:pre-application/access-token  accessToken
               :pre-application/refresh-token refreshToken
               :pre-application/type          (camel-snake-kebab/->kebab-case-keyword type)})
 

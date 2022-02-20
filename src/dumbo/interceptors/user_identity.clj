@@ -1,8 +1,10 @@
 (ns dumbo.interceptors.user-identity
   (:require [clojure.string :as str]
             [schema.core :as s]
-            [buddy.sign.jwt :as jwt])
-  (:import (clojure.lang ExceptionInfo)))
+            [buddy.sign.jwt :as jwt]
+            [taoensso.timbre :as timbre])
+  (:import (clojure.lang ExceptionInfo)
+           (java.util UUID)))
 
 (s/defschema UserIdentity
   {:user-identity/id s/Uuid})
@@ -10,7 +12,8 @@
 (s/defn ^:private wire-jwt->user-identity :- UserIdentity
   [jwt-wire :- s/Str
    jwt-secret :- s/Str]
-  (try (jwt/unsign jwt-wire jwt-secret)
+  (try (let [{:keys [id]} (:user (jwt/unsign jwt-wire jwt-secret))]
+         {:user-identity/id (UUID/fromString id)})
        (catch ExceptionInfo _ (throw (ex-info "Invalid JWT"
                                               {:status 422
                                                :cause  "Invalid JWT"})))))
