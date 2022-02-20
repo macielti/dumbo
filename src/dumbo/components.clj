@@ -4,14 +4,14 @@
             [common-clj.component.datomic :as component.datomic]
             [common-clj.component.service :as component.service]
             [common-clj.component.routes :as component.routes]
-            [common-clj.component.kafka.producer :as component.producer]
-            [common-clj.component.kafka.consumer :as component.consumer]))
+            [dumbo.diplomat.http-server :as diplomat.http-server]
+            [dumbo.db.datomic.config :as datomic.config]))
 
 (def system
   (component/system-map
     :config (component.config/new-config "resources/config.json" :prod)
-    :routes (component.routes/new-routes diplomatic.http-server/routes)
-    :datomic (component/using (component.datomic/new-datomic database.config/schemas) [:config])
+    :routes (component.routes/new-routes diplomat.http-server/routes)
+    :datomic (component/using (component.datomic/new-datomic datomic.config/schemas) [:config])
     :service (component/using (component.service/new-service) [:config :routes :datomic])))
 
 (defn start-system! []
@@ -20,8 +20,6 @@
 (def system-test
   (component/system-map
     :config (component.config/new-config "resources/config.example.json" :test)
-    :routes (component.routes/new-routes diplomatic.http-server/routes)
-    :datomic (component/using (component.datomic/new-datomic database.config/schemas) [:config])
-    :consumer (component/using (component.consumer/new-mock-consumer diplomatic.consumer/topic-consumers) [:config :datomic])
-    :producer (component/using (component.producer/new-mock-producer) [:consumer :config])
-    :service (component/using (component.service/new-service) [:config :routes :datomic :producer])))
+    :routes (component.routes/new-routes diplomat.http-server/routes)
+    :datomic (component/using (component.datomic/new-datomic datomic.config/schemas) [:config])
+    :service (component/using (component.service/new-service) [:config :routes :datomic])))

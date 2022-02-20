@@ -14,4 +14,6 @@
                  [com.stuartsierra/component "1.0.0"]
                  [prismatic/schema "1.2.0"]]
 
-  :repl-options {:init-ns dumbo.core})
+  :test-paths ["test/unit" "test/integration" "test/helpers"]
+
+  :repl-options {:init-ns dumbo.components})

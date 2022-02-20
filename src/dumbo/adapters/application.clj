@@ -1,10 +1,13 @@
 (ns dumbo.adapters.application
   (:require [schema.core :as s]
+            [clj-time.core :as time]
             [dumbo.models.application :as models.application]
             [dumbo.wire.in.application :as wire.in.application]
             [camel-snake-kebab.core :as camel-snake-kebab]
-            [clj-time.core :as time])
-  (:import (java.util UUID Date)))
+            [dumbo.wire.out.application :as wire.out.application])
+  (:import (java.util UUID Date TimeZone Locale)
+           (java.time.format DateTimeFormatter)
+           (java.text SimpleDateFormat)))
 
 (defmulti wire->internal-pre-application
           (s/fn [{:keys [type] :as pre-application}] :- models.application/PreApplicationType
@@ -35,3 +38,11 @@
                                        .toDate)
    :application/updated-at        (Date.)
    :application/created-at        (Date.)})
+
+(s/defn internal-application->wire :- wire.out.application/Application
+  [{:application/keys [id user-id access-token refresh-token type]} :- models.application/Application]
+  {:id           (str id)
+   :userId       (str user-id)
+   :accessToken  access-token
+   :refreshToken refresh-token
+   :type         (camel-snake-kebab/->SCREAMING_SNAKE_CASE_STRING type)})

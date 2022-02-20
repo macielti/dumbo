@@ -6,6 +6,7 @@
 (s/defn create!
   [{wire-pre-application     :json-params
     {:keys [datomic config]} :components}]
-  (let [pre-application (adapters.application/wire->internal-pre-application wire-pre-application)]
-    {:status 201
-     :body   (controllers.application/create! pre-application config (:connection datomic))}))
+  {:status 201
+   :body   (-> (adapters.application/wire->internal-pre-application wire-pre-application)
+               (controllers.application/create! config (:connection datomic))
+               adapters.application/internal-application->wire)})
