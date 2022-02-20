@@ -3,6 +3,8 @@
             [dumbo.wire.datomic.application :as wire.datomic.application]
             [schema.experimental.abstract-map :as abstract-map]))
 
+(def Application wire.datomic.application/Application)
+
 (def PreApplicationType (->> wire.datomic.application/application-types
                              (apply s/enum)))
 
