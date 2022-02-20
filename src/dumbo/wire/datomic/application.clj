@@ -32,11 +32,11 @@
     :db/cardinality :db.cardinality/one
     :db/doc         "When this application was created"}])
 
-(def application [:youtube :reddit])
+(def application-types [:youtube :reddit])
 
-(def ApplicationType (apply s/enum application))
+(def ApplicationType (apply s/enum application-types))
 
-(s/defschema AccessInfo
+(s/defschema Application
   {:application/id                s/Uuid
    :application/access-token      s/Str
    :application/refresh-token     s/Str

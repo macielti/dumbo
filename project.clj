@@ -9,6 +9,7 @@
 
   :dependencies [[org.clojure/clojure "1.10.3"]
                  [net.clojars.macielti/common-clj "9.13.9"]
+                 [camel-snake-kebab "0.4.2"]
                  [com.stuartsierra/component "1.0.0"]
                  [prismatic/schema "1.2.0"]]
 
