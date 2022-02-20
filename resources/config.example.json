@@ -1,0 +1,18 @@
+{
+  "prod": {
+    "jwtSecret": "random-uuid",
+    "datomicURI": "datomic:mem://example-prod",
+    "service": {
+      "host": "0.0.0.0",
+      "port": 8030
+    }
+  },
+  "test": {
+    "jwtSecret": "random-uuid",
+    "datomicURI": "datomic:mem://example-test",
+    "service": {
+      "host": "0.0.0.0",
+      "port": 8030
+    }
+  }
+}
