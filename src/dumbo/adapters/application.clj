@@ -5,7 +5,8 @@
             [camel-snake-kebab.core :as camel-snake-kebab]))
 
 (defmulti wire->internal-pre-application
-          (s/fn [:keys [type]] :- models.application/PreApplicationType
+          (s/fn [{:keys [type] :as pre-application}] :- models.application/PreApplicationType
+            (s/validate wire.in.application/PreApplication pre-application)
             (camel-snake-kebab/->kebab-case-keyword type)))
 
 (s/defmethod wire->internal-pre-application :youtube :- models.application/YoutubePreApplication
