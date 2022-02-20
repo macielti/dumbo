@@ -16,3 +16,6 @@
    :accessExpiresAt s/Str
    :updatedAt       s/Str
    :createdAt       s/Str})
+
+(s/defschema ApplicationDocument
+  {:application Application})

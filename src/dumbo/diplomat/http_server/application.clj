@@ -9,4 +9,5 @@
   {:status 201
    :body   (-> (adapters.application/wire->internal-pre-application wire-pre-application)
                (controllers.application/create! config (:connection datomic))
-               adapters.application/internal-application->wire)})
+               adapters.application/internal-application->wire
+               (->> (assoc {} :application)))})

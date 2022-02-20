@@ -39,10 +39,10 @@
    :application/updated-at        (Date.)
    :application/created-at        (Date.)})
 
-(s/defn internal-application->wire :- wire.out.application/Application
+(s/defn internal-application->wire :- wire.out.application/ApplicationDocument
   [{:application/keys [id user-id access-token refresh-token type]} :- models.application/Application]
-  {:id           (str id)
-   :userId       (str user-id)
-   :accessToken  access-token
-   :refreshToken refresh-token
-   :type         (camel-snake-kebab/->SCREAMING_SNAKE_CASE_STRING type)})
+  {:application {:id           (str id)
+                 :userId       (str user-id)
+                 :accessToken  access-token
+                 :refreshToken refresh-token
+                 :type         (camel-snake-kebab/->SCREAMING_SNAKE_CASE_STRING type)}})
