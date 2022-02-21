@@ -12,3 +12,6 @@
    datomic]
   (timbre/spy (-> (diplomat.http-client/fetch-application! pre-application user-id config)
                   (database.application/insert! datomic))))
+
+(s/defn authenticate!
+  [])

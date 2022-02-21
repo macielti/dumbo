@@ -9,3 +9,11 @@
    datomic-connection]
   (d/transact datomic-connection [application])
   application)
+
+(s/defn expired-ones :- [models.application/Application]
+  [datomic-connection]
+  (->> (d/q '[:find (pull ?application [*])
+              :where [?application :application/access-expires-at ?access-expires-at]
+              [?application (dumbo.logic.application/expired? {:application/access-expires-at ?access-expires-at})]])
+       (->> (map first))
+       (->> (mapv #(dissoc % :db/id)))))
