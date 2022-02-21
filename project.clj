@@ -20,7 +20,8 @@
                  [camel-snake-kebab "0.4.2"]
                  [com.stuartsierra/component "1.0.0"]
                  [prismatic/schema "1.2.0"]
-                 [com.datomic/datomic-free "0.9.5697"]]
+                 [com.datomic/datomic-free "0.9.5697"]
+                 [overtone/at-at "1.2.0"]]
 
   :resource-paths ["resources"]
 
