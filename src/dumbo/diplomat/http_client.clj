@@ -25,3 +25,19 @@
                    (json/parse-string true)
                    (adapters.application/wire->internal-youtube-application user-id))))
 
+(defmulti refresh-application-authentication!
+          (s/fn [{:application/keys [type]} :- models.application/Application
+                 config]
+            type))
+
+(s/defmethod refresh-application-authentication! :youtube :- models.application/Application
+             [{:application/keys [refresh-token]} :- models.application/Application
+              {:keys [youtube-client-id youtube-client-secret] :as config}]
+             (let [form-params {:client_id     youtube-client-id
+                                :client_secret youtube-client-secret
+                                :refresh_token refresh-token
+                                :grant_type    "refresh_token"}]
+               (-> (client/post "https://accounts.google.com/o/oauth2/token" {:form-params form-params})
+                   :body
+                   (json/parse-string true))))
+

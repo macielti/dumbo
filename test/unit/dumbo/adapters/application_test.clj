@@ -13,3 +13,9 @@
                                :type         string?
                                :userId       clj-uuid/uuid-string?}}
                 (adapters.application/internal-application->wire fixtures.application/internal-application)))))
+
+(deftest wire-update->internal-youtube-application-test
+  (testing "that I can externalize a application entity"
+    (is (match? {:application/refresh-token "to-be-refreshed"}
+                (adapters.application/wire-update->internal-youtube-application fixtures.application/wire-in-youtube-application
+                                                                                fixtures.application/internal-application)))))

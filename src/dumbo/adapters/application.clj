@@ -37,6 +37,17 @@
    :application/updated-at        (Date.)
    :application/created-at        (Date.)})
 
+(s/defn wire-update->internal-youtube-application :- models.application/Application
+  [{:keys [access_token refresh_token expires_in]} :- wire.in.application/YouTubeApplication
+   application :- models.application/Application]
+  (assoc application
+    :application/access-token access_token
+    :application/refresh-token refresh_token
+    :application/access-expires-at (->> (time/seconds expires_in)
+                                        (time/plus (time/now))
+                                        .toDate)
+    :application/updated-at (Date.)))
+
 (s/defn internal-application->wire :- wire.out.application/ApplicationDocument
   [{:application/keys [id user-id access-token refresh-token type]} :- models.application/Application]
   {:application {:id           (str id)

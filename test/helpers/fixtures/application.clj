@@ -18,6 +18,6 @@
 (def wire-in-youtube-pre-application (c/complete {:type "YOUTUBE"} wire.in.application/PreApplication))
 
 (def wire-in-youtube-application (c/complete {:access_token  "random-token"
-                                              :refresh_token "random-refresh-token"
+                                              :refresh_token "to-be-refreshed"
                                               :expires_in    3600}
                                              wire.in.application/YouTubeApplication))
