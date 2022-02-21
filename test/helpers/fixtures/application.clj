@@ -4,7 +4,12 @@
             [dumbo.models.application :as models.application]
             [dumbo.wire.in.application :as wire.in.application]))
 
-(def internal-application (c/complete {} models.application/Application))
+(def internal-application (c/complete {:application/access-expires-at #inst "3000-12-31T23:59:59.999-00:00"
+                                       :application/access-token      "not-expired-application"} models.application/Application))
+
+(def internal-expired-application (c/complete {:application/access-expires-at #inst "1969-12-31T23:59:59.999-00:00"
+                                               :application/access-token      "expired-application"}
+                                              models.application/Application))
 
 (def wire-in-reddit-pre-application (c/complete {:type         "REDDIT"
                                                  :accessToken  "random-one"
