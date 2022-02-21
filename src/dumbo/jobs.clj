@@ -1,7 +1,8 @@
 (ns dumbo.jobs
   (:require [com.stuartsierra.component :as component]
             [medley.core :as medley]
-            [overtone.at-at :as at-at]))
+            [overtone.at-at :as at-at]
+            [dumbo.jobs.application :as jobs.application]))
 
 (defrecord Jobs [config datomic telegram]
   component/Lifecycle
@@ -13,7 +14,7 @@
                                         :telegram (:telegram telegram))
           pool       (at-at/mk-pool)]
 
-      #_(at-at/interspaced 60000 (partial jobs.post/post-random-video! components) pool)
+      (at-at/interspaced 60000 (partial jobs.application/refresh-application-authentications! components) pool)
 
       (merge component {:jobs {:pool pool}})))
 
