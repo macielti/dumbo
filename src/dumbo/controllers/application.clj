@@ -13,8 +13,15 @@
       (database.application/insert! datomic)))
 
 
-(defmulti refresh-application-authentication! :application/type)
+(defmulti refresh-application-authentication!
+          (s/fn [{:application/keys [type]} :- models.application/Application
+                 config
+                 datomic]
+            type))
 
 (s/defmethod refresh-application-authentication! :youtube
-             [application :- models.application/Application]
-             (some->> ))
+             [application :- models.application/Application
+              config
+              datomic]
+             (some-> (diplomat.http-client/refresh-application-authentication! application config)
+                     (database.application/insert! datomic)))
