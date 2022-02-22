@@ -11,7 +11,6 @@
   (d/transact datomic-connection [application])
   application)
 
-;TODO: Add unit tests for this query
 (s/defn expired-ones :- [models.application/Application]
   [datomic-connection]
   (some->> (d/q '[:find (pull ?application [*])
