@@ -10,7 +10,8 @@
             [fixtures.application]
             [fixtures.user-identity]
             [dumbo.components :as components]
-            [cheshire.core :as json]))
+            [cheshire.core :as json]
+            [dumbo.db.datomic.application :as db.datomic.application]))
 
 (s/deftest create-application-test
   (let [system     (component/start components/system-test)
@@ -37,8 +38,5 @@
                      {:post (fn [_] {:status 200 :headers {} :body (json/encode fixtures.application/wire-in-youtube-application)})}}
                     (aux.http/create-application! fixtures.application/wire-in-youtube-pre-application
                                                   fixtures.user-identity/jwt-wire
-                                                  service-fn))))
-      #_(is (match? {:status 422
-                     :body   {:cause "Invalid JWT"}}
-                    (aux.http/create-application! fixtures.application/wire-in-youtube-pre-application service-fn))))
+                                                  service-fn)))))
     (component/stop system)))

@@ -20,3 +20,14 @@
                 (d/db datomic-connection) (Date.))
            (map first)
            (mapv #(dissoc % :db/id))))
+
+;TODO: add unit test for that query function
+(s/defn by-application-id :- models.application/Application
+  [application-id :- s/Uuid
+   datomic-connection]
+  (some-> (d/q '[:find (pull ?application [*])
+                 :in $ ?application-id
+                 :where [?application :application/id ?application-id]]
+               (d/db datomic-connection) application-id)
+          ffirst
+          (dissoc :db/id)))

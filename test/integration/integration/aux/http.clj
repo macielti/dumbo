@@ -19,3 +19,17 @@
                                                   :body (json/encode wire-application))]
      {:status status
       :body   (json/decode body true)})))
+
+(defn refresh-application-authentication!
+  ([service-fn]
+   (refresh-application-authentication! nil service-fn))
+  ([jwt-wire
+    service-fn]
+   (let [{:keys [body status]} (test/response-for service-fn
+                                                  :post "/applications/refresh"
+                                                  :headers (medley/assoc-some {"Content-Type" "application/json"}
+                                                                              "Authorization" (some->> jwt-wire
+                                                                                                       (format "Bearer %s")))
+                                                  :body "")]
+     {:status status
+      :body   (json/decode body true)})))
