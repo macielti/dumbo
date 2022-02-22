@@ -3,4 +3,6 @@
             [dumbo.diplomat.http-server.application :as diplomat.http-server.application]))
 
 (def routes [["/applications" :post [interceptors.user-identity/user-identity-interceptor
-                                     diplomat.http-server.application/create!] :route-name :create-application]])
+                                     diplomat.http-server.application/create!] :route-name :create-application]
+             ["/applications/refresh" :post [interceptors.user-identity/user-identity-interceptor
+                                             diplomat.http-server.application/refresh-application-authorization!] :route-name :refresh-application-authentication]])
