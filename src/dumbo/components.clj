@@ -4,6 +4,7 @@
             [common-clj.component.datomic :as component.datomic]
             [common-clj.component.service :as component.service]
             [common-clj.component.routes :as component.routes]
+            [dumbo.jobs :as jobs]
             [dumbo.diplomat.http-server :as diplomat.http-server]
             [dumbo.db.datomic.config :as datomic.config]))
 
@@ -13,7 +14,8 @@
     :config (component.config/new-config "resources/config.json" :prod)
     :routes (component.routes/new-routes diplomat.http-server/routes)
     :datomic (component/using (component.datomic/new-datomic datomic.config/schemas) [:config])
-    :service (component/using (component.service/new-service) [:config :routes :datomic])))
+    :service (component/using (component.service/new-service) [:config :routes :datomic])
+    :jobs (component/using (jobs/new-jobs) [:config :datomic])))
 
 (defn start-system! []
   (component/start system))
