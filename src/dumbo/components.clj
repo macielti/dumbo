@@ -8,7 +8,6 @@
             [dumbo.diplomat.http-server :as diplomat.http-server]
             [dumbo.db.datomic.config :as datomic.config]))
 
-;TODO: add job component
 (def system
   (component/system-map
     :config (component.config/new-config "resources/config.json" :prod)
