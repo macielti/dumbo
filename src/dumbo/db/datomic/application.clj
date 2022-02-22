@@ -22,7 +22,7 @@
            (mapv #(dissoc % :db/id))))
 
 ;TODO: add unit test for that query function
-(s/defn by-application-id :- models.application/Application
+(s/defn by-application-id :- (s/maybe models.application/Application)
   [application-id :- s/Uuid
    datomic-connection]
   (some-> (d/q '[:find (pull ?application [*])
