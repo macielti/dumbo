@@ -5,8 +5,7 @@
             [taoensso.timbre :as timbre]))
 
 (s/defn refresh-application-authentications!
-  [{:keys [datomic config] :as components}]
+  [{:keys [datomic config]}]
   (let [expired-applications (database.application/expired-ones (:connection datomic))]
     (doseq [application expired-applications]
-      ;TODO: Use kafka producer/consumer to call the controllers.application/refresh-application-authentication! controller so we can be more scalable
-      (controllers.application/refresh-application-authentication! (timbre/spy application) config datomic))))
+      (controllers.application/refresh-application-authentication! (timbre/spy application) config (:connection datomic)))))

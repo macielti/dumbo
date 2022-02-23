@@ -16,6 +16,6 @@
 
 (s/defn refresh-application-authorization!
   [{components :components}]                                ;TODO: This endpoint should be callable only for admin users
-  (timbre/spy (jobs.application/refresh-application-authentications! components))
+  (jobs.application/refresh-application-authentications! components)
   {:status 200
    :body   nil})

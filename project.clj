@@ -12,10 +12,11 @@
   :exclusions [log4j]
 
   :dependencies [[org.clojure/clojure "1.10.3"]
+                 [nubank/mockfn "0.7.0"]
                  [ch.qos.logback/logback-classic "1.2.10"]
                  [clj-http "3.12.3"]
                  [danlentz/clj-uuid "0.1.9"]
-                 [net.clojars.macielti/common-clj "9.13.10"]
+                 [net.clojars.macielti/common-clj "9.14.10"]
                  [buddy/buddy-sign "3.4.1"]
                  [camel-snake-kebab "0.4.2"]
                  [com.stuartsierra/component "1.0.0"]

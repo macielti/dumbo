@@ -1,6 +1,7 @@
 (ns dumbo.db.datomic.application
   (:require [schema.core :as s]
             [datomic.api :as d]
+            [common-clj.time.core :as common-time]
             [dumbo.models.application :as models.application]
             [dumbo.wire.datomic.application :as wire.datomic.application])
   (:import (java.util Date)))
@@ -17,11 +18,10 @@
                   :in $ ?now
                   :where [?application :application/access-expires-at ?access-expires-at]
                   [(> ?now ?access-expires-at)]]
-                (d/db datomic-connection) (Date.))
+                (d/db datomic-connection) (common-time/now-datetime))
            (map first)
            (mapv #(dissoc % :db/id))))
 
-;TODO: add unit test for that query function
 (s/defn by-application-id :- (s/maybe models.application/Application)
   [application-id :- s/Uuid
    datomic-connection]
