@@ -1,4 +1,4 @@
-(ns integration.aux.refresh-application-authentication
+(ns integration.refresh-application-authentication
   (:require [clojure.test :refer :all]
             [schema.test :as s]
             [clj-uuid]
