@@ -10,8 +10,7 @@
             [fixtures.application]
             [fixtures.user-identity]
             [dumbo.components :as components]
-            [cheshire.core :as json]
-            [dumbo.db.datomic.application :as db.datomic.application]))
+            [cheshire.core :as json]))
 
 (s/deftest create-application-test
   (let [system     (component/start components/system-test)
@@ -31,7 +30,7 @@
                    :body   {:application {:id           clj-uuid/uuid-string?
                                           :userId       clj-uuid/uuid-string?
                                           :accessToken  "random-token"
-                                          :refreshToken "random-refresh-token"
+                                          :refreshToken "to-be-refreshed"
                                           :type         "YOUTUBE"}}}
                   (fake/with-fake-routes
                     {"https://accounts.google.com/o/oauth2/token"
