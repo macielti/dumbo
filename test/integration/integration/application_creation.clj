@@ -30,15 +30,12 @@
                    :body   {:application {:id           clj-uuid/uuid-string?
                                           :userId       clj-uuid/uuid-string?
                                           :accessToken  "random-token"
-                                          :refreshToken "random-refresh-token"
+                                          :refreshToken "to-be-refreshed"
                                           :type         "YOUTUBE"}}}
                   (fake/with-fake-routes
                     {"https://accounts.google.com/o/oauth2/token"
                      {:post (fn [_] {:status 200 :headers {} :body (json/encode fixtures.application/wire-in-youtube-application)})}}
                     (aux.http/create-application! fixtures.application/wire-in-youtube-pre-application
                                                   fixtures.user-identity/jwt-wire
-                                                  service-fn))))
-      #_(is (match? {:status 422
-                     :body   {:cause "Invalid JWT"}}
-                    (aux.http/create-application! fixtures.application/wire-in-youtube-pre-application service-fn))))
+                                                  service-fn)))))
     (component/stop system)))

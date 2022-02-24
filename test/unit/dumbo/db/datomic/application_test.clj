@@ -22,3 +22,12 @@
       (is (match? [{:application/id (:application/id fixtures.application/internal-expired-application)}]
                   (db.datomic.application/expired-ones mocked-datomic))))
     (d/release mocked-datomic)))
+
+(deftest by-application-id-test
+  (let [mocked-datomic (component.datomic/mocked-datomic db.datomic.config/schemas)]
+    (db.datomic.application/insert! fixtures.application/internal-expired-application mocked-datomic)
+    (testing "that we can query application by it's id"
+      (is (match? fixtures.application/internal-expired-application
+                  (db.datomic.application/by-application-id (:application/id fixtures.application/internal-expired-application)
+                                                            mocked-datomic))))
+    (d/release mocked-datomic)))
