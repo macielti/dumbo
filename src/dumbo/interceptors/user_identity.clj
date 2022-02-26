@@ -2,18 +2,21 @@
   (:require [clojure.string :as str]
             [schema.core :as s]
             [buddy.sign.jwt :as jwt]
-            [taoensso.timbre :as timbre])
+            [camel-snake-kebab.core :as camel-snake-kebab])
   (:import (clojure.lang ExceptionInfo)
            (java.util UUID)))
 
+
 (s/defschema UserIdentity
-  {:user-identity/id s/Uuid})
+  {:user-identity/id    s/Uuid
+   :user-identity/roles [s/Keyword]})
 
 (s/defn ^:private wire-jwt->user-identity :- UserIdentity
   [jwt-wire :- s/Str
    jwt-secret :- s/Str]
-  (try (let [{:keys [id]} (:user (jwt/unsign jwt-wire jwt-secret))]
-         {:user-identity/id (UUID/fromString id)})
+  (try (let [{:keys [id roles]} (:user (jwt/unsign jwt-wire jwt-secret))]
+         {:user-identity/id    (UUID/fromString id)
+          :user-identity/roles (map camel-snake-kebab/->kebab-case-keyword roles)})
        (catch ExceptionInfo _ (throw (ex-info "Invalid JWT"
                                               {:status 422
                                                :cause  "Invalid JWT"})))))
@@ -28,3 +31,13 @@
                            (catch Exception _ (throw (ex-info "Invalid JWT"
                                                               {:status 422
                                                                :cause  "Invalid JWT"}))))))})
+
+(s/defn user-required-roles-interceptor
+  [required-roles :- [s/Keyword]]
+  {:name  ::user-required-roles-interceptor
+   :enter (fn [{{{user-roles :user-identity/roles} :user-identity} :request :as context}]
+            (if (empty? (clojure.set/difference (set required-roles) (set user-roles)))
+              context
+              (throw (ex-info "Insufficient privileges/roles/permission"
+                              {:status 403
+                               :cause  "Insufficient privileges/roles/permission"}))))})

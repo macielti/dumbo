@@ -5,4 +5,5 @@
 (def routes [["/applications" :post [interceptors.user-identity/user-identity-interceptor
                                      diplomat.http-server.application/create!] :route-name :create-application]
              ["/applications/refresh" :post [interceptors.user-identity/user-identity-interceptor
+                                             (interceptors.user-identity/user-required-roles-interceptor [:admin])
                                              diplomat.http-server.application/refresh-application-authorization!] :route-name :refresh-application-authentication]])
